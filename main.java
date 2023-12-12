@@ -52,17 +52,11 @@ public class main {
         return retval;
     }
     public static void printScreen(boolean[][] ar){
-        String line = "";
-        for (int y = ar.length; y > 0 ;  y--) {
-            for (int x = 0 ; x < ar[y-1].length; x++){
-                if (ar[x][y-1]) {
-                    line += "X ";
-                } else {
-                    line += "O ";
-                }
+        String[] line = new String[ar.length];
+        for (int x = 0; x < ar.length ; x++){
+            for (int y = 0; y < ar[x].length ; y++){
+
             }
-            System.err.println(line);
-            line = "";
         }
     }
 
@@ -78,7 +72,6 @@ public class main {
                 if(ar[x][y]){
                     xChange = (x-2.0)/10.0;
                     yChange = (y-2.0)/10.0;
-                    System.out.println(x);
                     StdDraw.setPenColor(StdDraw.BLACK);
                     StdDraw.filledRectangle(0.5+xChange, 0.5+yChange, 0.05, 0.05);
                 } else {
