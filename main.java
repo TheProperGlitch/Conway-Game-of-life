@@ -1,13 +1,35 @@
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
     boolean[][] test = new boolean[5][5];
     for (int i = 0; i < test.length ; i++ ){
         for (int j = 0; j < test[i].length; j++){
-            test[i][j] = (Math.random() <= 0.25);
+            test[i][j] = false;
         }
     }
     printScreen(test);
     drawScreen(test);
+    System.out.println("What spaces (1-25) would you like to start alive? Leave blank to continue.");
+    for(boolean i = false ; !i ; ){
+        String input = System.console().readLine();
+        int selection;
+        int y;
+        int x;
+        if (input.equals("")){
+            i = true;
+            System.out.println("Done");
+        } else {
+            selection = Integer.parseInt(input);
+            y = (selection-1)/5;
+            x = (selection - 1) % 5;
+            test[x][y] = true;
+            drawScreen(test);
+        }
+    }
+    for(int i = 0; i < 5; i++){
+        StdDraw.pause(1000);
+        test = oneRound(test);
+        drawScreen(test);
+    }
     }
 
 
@@ -51,16 +73,26 @@ public class main {
         }
         return retval;
     }
-    public static void printScreen(boolean[][] ar){
-        String[] line = new String[ar.length];
+    private static void printScreen(boolean[][] ar){
+        String[] line = new String[ar[0].length];
+        for (int i = 0; i < line.length ; i++){
+            line[i]= "";
+        }
         for (int x = 0; x < ar.length ; x++){
             for (int y = 0; y < ar[x].length ; y++){
-
+                if (ar[x][y]){
+                    line[y] += " X ";
+                } else {
+                    line[y] += " O ";
+                }
             }
+        }
+        for (int i = line.length-1 ; i > -1; i--){
+            System.out.println(line[i]);
         }
     }
 
-    public static void drawScreen(boolean[][] ar){
+    private static void drawScreen(boolean[][] ar){
         StdDraw.setCanvasSize(750, 750);
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(StdDraw.GRAY);
@@ -75,9 +107,21 @@ public class main {
                     StdDraw.setPenColor(StdDraw.BLACK);
                     StdDraw.filledRectangle(0.5+xChange, 0.5+yChange, 0.05, 0.05);
                 } else {
+                    xChange = (x-2.0)/10.0;
+                    yChange = (y-2.0)/10.0;
                     StdDraw.setPenColor(StdDraw.GRAY);
-                    StdDraw.filledRectangle(0.5+((x-2)/5), (0.5+((y-2)/5)), 0.05, 0.05);
-                }
+                    StdDraw.filledRectangle(0.5+xChange, 0.5+yChange, 0.05, 0.05);
+                } 
+            }
+        }
+    }
+
+    private static void setBoard(){
+        StdDraw.setCanvasSize(750, 750);
+        for (int i = 0 ; i < 1000; i += 1){
+            if (StdDraw.isMousePressed()){
+                System.out.println("Ayyy");
+                StdDraw.pause(1000);
             }
         }
     }
